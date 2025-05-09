@@ -52,7 +52,7 @@ app.use(
     }),
     cookie: {
       maxAge: 24 * 60 * 60 * 1000, // 1 day
-      httpOnly: true,
+      httpOnly: false,
       secure: true, // For development (in production set to true with HTTPS)
       sameSite: 'None',
     },
@@ -87,7 +87,7 @@ app.get('/me', (req, res) => {
   console.log(req)
   console.log(req.isAuthenticated())
   if (req.isAuthenticated()) {
-    res.json(req.user);  // Using req.user which Passport sets
+    res.json(req.user);  
   } else {
     res.status(401).json({ message: 'User not logged in' });
   }
