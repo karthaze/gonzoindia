@@ -16,18 +16,29 @@ const App = () => {
     const fetchUser = async () => {
       try {
         const backendURL = process.env.REACT_APP_BACKEND_URL;
-        console.log({backendURL})
+        console.log('Fetching user from:', backendURL);
+        try {
+          const res = await axios.get(`${backendURL}/auth/me`, {
+            withCredentials: true,
+          });
+          console.log('User data received:', res.data);
+          dispatch(setUser(res.data));
+          return;
+        } catch (authError) {
+          console.log('Auth/me failed, trying fallback:', authError);
+        }
         const res = await axios.get(`${backendURL}/me`, {
           withCredentials: true,
         });
+        console.log('User data received from fallback:', res.data);
         dispatch(setUser(res.data));
       } catch (err) {
-        console.log('User not logged in',err);
+        console.error('User not logged in', err);
       }
     };
 
     fetchUser();
-  }, []);
+  }, [dispatch]);
   
 
   return (
