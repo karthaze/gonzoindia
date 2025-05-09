@@ -83,6 +83,9 @@ app.get('/auth/google', (req, res, next) => {
 });
 
 app.get('/me', (req, res) => {
+  console.log('meee')
+  console.log(req)
+  console.log(req.isAuthenticated())
   if (req.isAuthenticated()) {
     res.json(req.user);  // Using req.user which Passport sets
   } else {
