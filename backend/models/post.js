@@ -8,7 +8,7 @@ const postSchema = new mongoose.Schema({
   destination: { type: String, required: true },
   imageUrl: { type: String },
   spotifyEmbedUrl: { type: String },
-  email: { type: String, required: true },
+  email: { type: String },
   authorName: { type: String },
   createdAt: { type: Date, default: Date.now },
 });
