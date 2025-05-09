@@ -53,7 +53,7 @@ app.use(
     cookie: {
       maxAge: 24 * 60 * 60 * 1000, // 1 day
       httpOnly: true,
-      secure: false, // For development (in production set to true with HTTPS)
+      secure: true, // For development (in production set to true with HTTPS)
     },
   })
 );
