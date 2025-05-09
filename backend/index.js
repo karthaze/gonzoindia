@@ -108,7 +108,7 @@ app.get('/api/spotify/search', async (req, res) => {
 
 
 
-app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: process.env.CLIENT_URL }), async (req, res) => {
+app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: process.env.CLIENT_URL, session:true }), async (req, res) => {
   try {
     // Debug log to see what's actually in the user object
     console.log("Google auth callback user:", JSON.stringify(req.user, null, 2));
