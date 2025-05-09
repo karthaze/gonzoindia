@@ -1,0 +1,227 @@
+/* src/components/gj-top-bar/GJTopBar.module.css */
+.topBar {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0 20px;
+  height: 60px;
+  background-color: #0a0a0a;
+  border-bottom: 2px solid #ff0040;
+  font-family: 'Courier New', monospace;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(255, 0, 64, 0.1);
+}
+
+.leftSection {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-shadow: 0 0 5px rgba(255, 0, 64, 0.7);
+  transition: all 0.2s ease;
+}
+
+.logo:hover {
+  transform: scale(1.03);
+  text-shadow: 0 0 8px rgba(255, 0, 64, 0.9);
+}
+
+.highlight {
+  color: #ff0040;
+}
+
+.centerSection {
+  flex: 2;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.searchContainer {
+  position: relative;
+  width: 80%;
+  max-width: 500px;
+  transition: all 0.3s ease;
+}
+
+.searchContainer.active {
+  width: 90%;
+  max-width: 600px;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 8px 40px 8px 15px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid #333;
+  border-radius: 4px;
+  color: #fff;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #ff0040;
+  background-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 8px rgba(255, 0, 64, 0.4);
+}
+
+.searchIcon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  font-size: 1.2rem;
+  pointer-events: none;
+}
+
+.searchInput:focus + .searchIcon {
+  color: #ff0040;
+}
+
+.rightSection {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px;
+}
+
+.navIcons {
+  display: flex;
+  gap: 15px;
+}
+
+.navIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1a1a1a;
+  color: #ccc;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid #333;
+}
+
+.navIcon:hover {
+  background-color: #ff0040;
+  color: #fff;
+  transform: scale(1.1);
+  border-color: #ff0040;
+}
+
+.profileContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 20px;
+  transition: all 0.2s ease;
+}
+
+.profileContainer:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.profileImage {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ff0040;
+}
+
+.profilePlaceholder {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #1a1a1a;
+  color: #ff0040;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: bold;
+  border: 2px solid #ff0040;
+}
+
+.userName {
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: bold;
+  max-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Glitch effect for the logo on hover */
+@keyframes glitch {
+  0% {
+    text-shadow: 0.05em 0 0 rgba(255, 0, 64, 0.75), -0.05em -0.025em 0 rgba(0, 255, 255, 0.75);
+  }
+  14% {
+    text-shadow: 0.05em 0 0 rgba(255, 0, 64, 0.75), -0.05em -0.025em 0 rgba(0, 255, 255, 0.75);
+  }
+  15% {
+    text-shadow: -0.05em -0.025em 0 rgba(255, 0, 64, 0.75), 0.025em 0.025em 0 rgba(0, 255, 255, 0.75);
+  }
+  49% {
+    text-shadow: -0.05em -0.025em 0 rgba(255, 0, 64, 0.75), 0.025em 0.025em 0 rgba(0, 255, 255, 0.75);
+  }
+  50% {
+    text-shadow: 0.025em 0.05em 0 rgba(255, 0, 64, 0.75), 0.05em 0 0 rgba(0, 255, 255, 0.75);
+  }
+  99% {
+    text-shadow: 0.025em 0.05em 0 rgba(255, 0, 64, 0.75), 0.05em 0 0 rgba(0, 255, 255, 0.75);
+  }
+  100% {
+    text-shadow: -0.025em 0 0 rgba(255, 0, 64, 0.75), -0.025em -0.025em 0 rgba(0, 255, 255, 0.75);
+  }
+}
+
+.logo:hover {
+  animation: glitch 500ms infinite;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .centerSection {
+    display: none;
+  }
+  
+  .rightSection {
+    gap: 10px;
+  }
+  
+  .userName {
+    display: none;
+  }
+  
+  .navIcons {
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    font-size: 1.5rem;
+  }
+}

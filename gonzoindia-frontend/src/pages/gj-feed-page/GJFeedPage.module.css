@@ -1,0 +1,122 @@
+/* GJFeedPage.module.css with added styles for create button */
+
+.feedPage {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #121212;
+  color: #f5f5f5;
+}
+
+.mainContent {
+  width: 100%;
+  overflow: hidden;
+  background-color: #151515;
+}
+
+.contentArea {
+  flex: 1;
+  padding: 20px;
+  transition: margin-left 0.3s ease;
+  overflow-y: auto;
+}
+
+.withSidebar {
+  margin-left: 250px; /* Adjust based on your sidebar width */
+}
+
+.postList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 24px;
+  padding-top: 16px;
+}
+
+.feedHeader {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #333;
+}
+
+.feedTitle {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0;
+  background: linear-gradient(90deg, #ff6b6b, #ffa86b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.createButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(90deg, #ff6b6b, #ffa86b);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+}
+
+.createButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 107, 107, 0.4);
+}
+
+.createButton:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+}
+
+.errorMessage {
+  padding: 12px;
+  margin-bottom: 20px;
+  background: rgba(255, 87, 87, 0.1);
+  border-left: 4px solid #ff5757;
+  color: #ff8787;
+  border-radius: 4px;
+}
+
+/* Add responsive adjustments if needed */
+@media (max-width: 768px) {
+  .withSidebar {
+    margin-left: 0;
+  }
+  
+  .postList {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+  
+  .createButton span {
+    display: none;
+  }
+  
+  .createButton {
+    padding: 10px;
+  }
+  
+  .feedHeader {
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+  }
+  
+  .feedTitle {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .postList {
+    grid-template-columns: 1fr;
+  }
+}

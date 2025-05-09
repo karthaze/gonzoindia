@@ -1,0 +1,99 @@
+/* Spotify Search Dropdown Styles - Add these to your existing CSS file */
+
+/* Container positioning */
+.spotifySearchContainer {
+  position: relative;
+  width: 90%;
+}
+
+/* Dropdown menu */
+.spotifyDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 250px;
+  overflow-y: auto;
+  background-color: #222;
+  border: 1px solid #444;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  display: none;
+}
+
+.spotifyDropdown.active {
+  display: block;
+  animation: fadeIn 0.2s ease;
+}
+
+/* Search results */
+.searchResult {
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid #333;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.searchResult:last-child {
+  border-bottom: none;
+}
+
+.searchResult:hover {
+  background-color: #3a3a3a;
+}
+
+.resultInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.trackName {
+  font-weight: 500;
+  color: #fff;
+  margin: 0 0 4px 0;
+}
+
+.artistName {
+  font-size: 0.85rem;
+  color: #aaa;
+  margin: 0;
+}
+
+/* Loading indicator */
+.searchLoading {
+  padding: 15px;
+  text-align: center;
+  color: #999;
+}
+
+/* Selected track display */
+.selectedTrack {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+  background-color: #1e3a31;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+/* You already have these Spotify styles in your CSS, but I'm including them for completeness */
+.spotifyPreview {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  background-color: #1e3a31;
+  color: #1db954;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.spotifyIcon {
+  color: #1db954;
+}

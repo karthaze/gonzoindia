@@ -1,0 +1,99 @@
+/* GonzoFooter.module.css */
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 1rem 0;
+    background: var(--content-bg);
+    border-top: 2px solid var(--gonzo-red);
+    font-family: 'Courier Prime', monospace;
+    transform: translateY(calc(100% - 3.5rem));
+    transition: transform var(--transition-speed) cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  
+  .footer:hover {
+    transform: translateY(0);
+  }
+  
+  .footerContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  
+  .footerInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .name {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--gonzo-white);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .link {
+    position: relative;
+    color: var(--gonzo-white);
+    text-decoration: none;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+    padding: 0.3rem 0;
+  }
+  
+  .link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--gonzo-red);
+    transition: width 0.3s ease;
+  }
+  
+  .link:hover {
+    color: var(--gonzo-red);
+  }
+  
+  .link:hover::after {
+    width: 100%;
+  }
+  
+  .footerCopyright {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+  }
+  
+  @media (max-width: 768px) {
+    .links {
+      gap: 1rem;
+    }
+    
+    .link {
+      font-size: 0.8rem;
+    }
+  }

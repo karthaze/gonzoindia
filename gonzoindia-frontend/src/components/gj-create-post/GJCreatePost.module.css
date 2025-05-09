@@ -1,0 +1,438 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modalOverlay.active {
+  opacity: 1;
+}
+
+.modal {
+  background-color: #121212;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 1000px;
+  height: 90vh;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  transform: translateY(20px);
+  transition: transform 0.3s ease;
+  border-left: 4px solid #ff0040;
+  color: white;
+}
+
+.modal.active {
+  transform: translateY(0);
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #333;
+  position: sticky;
+  top: 0;
+  background-color: #121212;
+  z-index: 2;
+}
+
+.modalHeader h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: #aaa;
+  cursor: pointer;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.closeButton:hover {
+  color: #ff0040;
+}
+
+.tabsContainer {
+  display: flex;
+  border-bottom: 1px solid #333;
+  background-color: #1a1a1a;
+  position: sticky;
+  top: 60px;
+  z-index: 1;
+}
+
+.tab {
+  flex: 1;
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  color: #ccc;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+}
+
+.tab:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 3px;
+  background-color: #ff0040;
+  transition: all 0.2s ease;
+  transform: translateX(-50%);
+}
+
+.tab:hover {
+  color: white;
+}
+
+.activeTab {
+  color: white;
+}
+
+.activeTab:after {
+  width: 50%;
+}
+
+.form {
+  padding: 20px;
+}
+
+.tabContent {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.activeContent {
+  display: block;
+}
+
+.inputGroup {
+  margin-bottom: 20px;
+}
+
+.inputRow {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.inputRow .inputGroup {
+  flex: 1;
+  justify-content: flex-start;
+  margin-bottom: 0;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: #ddd;
+}
+
+.mediaLabel, .detailLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.input, .textarea {
+  width: 90%;
+  padding: 12px;
+  border-radius: 4px;
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  color: white;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input:focus, .textarea:focus {
+  outline: none;
+  border-color: #ff0040;
+  box-shadow: 0 0 0 2px rgba(255, 0, 64, 0.2);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 150px;
+}
+
+.mediaUpload {
+  position: relative;
+  border: 2px dashed #444;
+  border-radius: 6px;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.2s;
+  background-color: #1c1c1c;
+}
+
+.mediaUpload:hover {
+  border-color: #ff0040;
+}
+
+.fileInput {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.uploadPlaceholder {
+  padding: 30px 0;
+  color: #999;
+}
+
+.uploadPlaceholder svg {
+  margin-bottom: 10px;
+  color: #666;
+}
+
+.previewImage {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 4px;
+}
+
+/* Spotify Search Dropdown Styles */
+.spotifySearchContainer {
+  position: relative;
+  width: 90%;
+}
+
+.searchInputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchingIndicator {
+  position: absolute;
+  right: 12px;
+  color: #999;
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+.clearButton {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  transition: color 0.2s;
+}
+
+.clearButton:hover {
+  color: #ff0040;
+}
+
+.searchDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 300px;
+  overflow-y: auto;
+  background-color: #1a1a1a;
+  border: 1px solid #444;
+  border-radius: 4px;
+  margin-top: 4px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+
+.searchResultItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #333;
+  transition: background-color 0.2s;
+}
+
+.searchResultItem:last-child {
+  border-bottom: none;
+}
+
+.searchResultItem:hover {
+  background-color: #2a2a2a;
+}
+
+.trackInfo {
+  flex: 1;
+}
+
+.trackName {
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin: 0 0 4px 0;
+  color: white;
+}
+
+.artistName {
+  font-size: 0.8rem;
+  color: #999;
+  margin: 0;
+}
+
+.noResults {
+  padding: 12px;
+  text-align: center;
+  color: #999;
+  font-style: italic;
+  background-color: #1a1a1a;
+  border: 1px solid #444;
+  border-radius: 4px;
+  margin-top: 4px;
+}
+
+.spotifyPreview {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  background-color: #1e3a31;
+  color: #1db954;
+  padding: 12px 16px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  width: 90%;
+}
+
+.spotifyIcon {
+  color: #1db954;
+  flex-shrink: 0;
+}
+
+.selectedTrackInfo {
+  flex: 1;
+}
+
+.selectedTrackName {
+  font-weight: 500;
+  margin: 0 0 2px 0;
+}
+
+.selectedArtistName {
+  font-size: 0.8rem;
+  opacity: 0.9;
+  margin: 0;
+}
+
+.errorMessage {
+  background-color: rgba(255, 0, 0, 0.1);
+  border-left: 3px solid #ff0040;
+  color: #ff8080;
+  padding: 12px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.cancelButton, .submitButton {
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cancelButton {
+  background-color: transparent;
+  border: 1px solid #444;
+  color: #ddd;
+}
+
+.cancelButton:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: #888;
+}
+
+.submitButton {
+  background-color: #ff0040;
+  border: none;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.submitButton:hover {
+  background-color: #e00038;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(255, 0, 64, 0.3);
+}
+
+.submitButton:disabled {
+  background-color: #661b33;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Custom Scrollbar for the dropdown */
+.searchDropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.searchDropdown::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+.searchDropdown::-webkit-scrollbar-thumb {
+  background-color: #444;
+  border-radius: 6px;
+}
+
+.searchDropdown::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
