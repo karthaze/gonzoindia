@@ -24,6 +24,7 @@ app.use(cors({
   credentials: true,
 }));
 
+app.use(require("cookie-parser")());
 app.use(express.json({ limit: '20mb' }));
 app.use(express.urlencoded({ limit: '20mb', extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -67,6 +68,10 @@ app.get("/", (req, res) => {
 
 // The /me endpoint - moved to authRoutes but keeping here for compatibility
 app.get('/me', (req, res) => {
+  console.log('Session ID:', req.sessionID);
+  console.log('Session contents:', req.session);
+  console.log('User in req:', req.user);
+  console.log('Authenticated:', req.isAuthenticated());
   if (req.isAuthenticated()) {
     res.json(req.user);  
   } else {
