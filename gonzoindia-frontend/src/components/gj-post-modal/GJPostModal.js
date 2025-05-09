@@ -112,10 +112,7 @@ const GJPostModal = ({ post, onClose, onNext, onPrev, disableNext, disablePrev }
                 <LocateFixedIcon size={16} />
                 <span>{post.destination}</span>
               </div>
-              <div className={styles.metaItem}>
-                <Clock size={16} />
-                <span>{post.event}</span>
-              </div>
+              
             </div>
             
             {/* Scrollable content */}
@@ -125,6 +122,9 @@ const GJPostModal = ({ post, onClose, onNext, onPrev, disableNext, disablePrev }
               onScroll={handleScroll}
             >
               <h2 className={styles.postTitle}>{post.title}</h2>
+              
+              <div className={styles.authorText}>
+                <span>{post.event}</span></div>
               <div className={styles.postText}>{post.text}</div>
               <div className={styles.authorText}>-{post.authorName}</div>
               
