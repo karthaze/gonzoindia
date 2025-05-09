@@ -3,7 +3,7 @@ const dotenv = require("dotenv");
 const session = require("express-session");
 const passport = require("passport");
 const postRoutes = require('./routes/post');
-const authRoutes = require('./routes/auth'); // Import your auth routes
+const authRoutes = require('./routes/auth');
 const MongoStore = require('connect-mongo');
 const User = require("./models/users");
 const cors = require("cors");
@@ -70,7 +70,7 @@ app.get('/me', (req, res) => {
   if (req.isAuthenticated()) {
     res.json(req.user);  
   } else {
-    res.status(401).json({ message: 'User not logged in' });
+    res.status(401).json({ message: 'User not logged123 in' });
   }
 });
 
