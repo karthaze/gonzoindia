@@ -54,6 +54,7 @@ app.use(
       maxAge: 24 * 60 * 60 * 1000, // 1 day
       httpOnly: true,
       secure: true, // For development (in production set to true with HTTPS)
+      sameSite: 'None',
     },
   })
 );
