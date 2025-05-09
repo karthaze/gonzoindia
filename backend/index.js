@@ -19,7 +19,7 @@ const app = express();
 connectDB();
 
 app.use(cors({
-  origin: process.env.CLIENT_URL|| 'http://localhost:3000',
+  origin: process.env.CLIENT_URL,
   credentials: true,
 }));
 
@@ -53,7 +53,6 @@ app.use(
     cookie: {
       maxAge: 24 * 60 * 60 * 1000, // 1 day
       httpOnly: true,
-      sameSite: 'none',
       secure: true, // For development (in production set to true with HTTPS)
     },
   })
@@ -81,6 +80,13 @@ app.get('/auth/google', (req, res, next) => {
   })(req, res, next);
 });
 
+app.get('/me', (req, res) => {
+  if (req.isAuthenticated()) {
+    res.json(req.user);  // Using req.user which Passport sets
+  } else {
+    res.status(401).json({ message: 'User not logged in' });
+  }
+});
 
 app.get('/api/spotify/search', async (req, res) => {
   const q = req.query.q;
@@ -97,69 +103,29 @@ app.get('/api/spotify/search', async (req, res) => {
 
 
 
-// Update your Google callback route in index.js
+app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: process.env.CLIENT_URL }), async (req, res) => {
+  try {
+    // Debug log to see what's actually in the user object
+    console.log("Google auth callback user:", JSON.stringify(req.user, null, 2));
+    
+    // Get email safely with fallback
+    const email = req.user.emails && req.user.emails[0] ? req.user.emails[0].value : null;
+    
+    let user = await User.findOne({ googleId: req.user.id });
 
-app.get('/auth/google/callback', 
-  passport.authenticate('google', { 
-    failureRedirect: process.env.CLIENT_URL 
-  }), 
-  (req, res) => {
-    try {
-      // Log authentication info for debugging
-      console.log('Google auth successful');
-      console.log('User in session:', req.user ? req.user.id : 'No user');
-      console.log('Session ID:', req.sessionID);
-      console.log('isAuthenticated:', req.isAuthenticated());
-      
-      // Make sure session is saved before redirect
-      req.session.save((err) => {
-        if (err) {
-          console.error('Session save error:', err);
-          return res.redirect(`${process.env.CLIENT_URL}/auth-error`);
-        }
-        
-        // Set a flag in the session to confirm authentication
-        req.session.isLoggedIn = true;
-        
-        // Redirect to frontend
-        res.redirect(`${process.env.CLIENT_URL}/GJFeedPage`);
+    if (!user) {
+      user = new User({
+        googleId: req.user.id,
+        email: email,
+        displayName: req.user.displayName || req.user.name || 'User',
       });
-    } catch (err) {
-      console.error('Error in auth callback:', err);
-      res.status(500).send('Authentication error');
+      await user.save();
     }
-  }
-);
+    res.redirect(`${process.env.CLIENT_URL}/GJFeedPage`);
 
-// Add this debug route to check auth status
-app.get('/auth-status', (req, res) => {
-  res.json({
-    isAuthenticated: req.isAuthenticated(),
-    sessionID: req.sessionID,
-    hasSession: !!req.session,
-    user: req.user ? {
-      id: req.user.id,
-      googleId: req.user.googleId,
-      email: req.user.email,
-      displayName: req.user.displayName
-    } : null
-  });
-});
-
-// Update your /me endpoint
-app.get('/me', (req, res) => {
-  console.log('/me endpoint - isAuthenticated:', req.isAuthenticated());
-  console.log('/me endpoint - sessionID:', req.sessionID);
-  console.log('/me endpoint - user:', req.user ? req.user.id : 'No user');
-  
-  if (req.isAuthenticated() && req.user) {
-    res.json(req.user);
-  } else {
-    res.status(401).json({ 
-      error: 'Not authenticated',
-      sessionExists: !!req.session,
-      sessionID: req.sessionID
-    });
+  } catch (err) {
+    console.error('Error during user save:', err);
+    res.status(500).send("Internal Server Error");
   }
 });
 
