@@ -53,6 +53,7 @@ app.use(
     cookie: {
       maxAge: 24 * 60 * 60 * 1000, // 1 day
       httpOnly: true,
+      sameSite: 'none',
       secure: true, // For development (in production set to true with HTTPS)
     },
   })
@@ -81,6 +82,9 @@ app.get('/auth/google', (req, res, next) => {
 });
 
 app.get('/me', (req, res) => {
+  console.log('Session ID:', req.sessionID);
+  console.log('Is authenticated:', req.isAuthenticated());
+  console.log('Session:', req.session);
   if (req.isAuthenticated()) {
     res.json(req.user);  // Using req.user which Passport sets
   } else {
