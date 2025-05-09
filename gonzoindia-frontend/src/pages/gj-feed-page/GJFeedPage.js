@@ -7,10 +7,13 @@ import GJSidebar from "../../components/gj-side-bar/GJSideBar";
 import FeedList from "../../components/gj-feed/GJFeed";
 import { getPosts } from "../../apis/api";
 import socket from "../../socket/socket";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { setUser } from "../../features/auth/authSlice";
 
 const GJFeedPage = () => {
   const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
   const [selectedPost, setSelectedPost] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [showCreate, setShowCreate] = useState(false);
@@ -20,6 +23,35 @@ const GJFeedPage = () => {
   const [myPosts, setMyPosts] = useState(false);
   const [eventFilter, setEventFilter] = useState(false);
   const [searchEvent, setSearchEvent] = useState(null);
+
+
+   useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const backendURL = process.env.REACT_APP_BACKEND_URL;
+        console.log('Fetching user from:', backendURL);
+        try {
+          const res = await axios.get(`${backendURL}/auth/me`, {
+            withCredentials: true,
+          });
+          console.log('User data received:', res.data);
+          dispatch(setUser(res.data));
+          return;
+        } catch (authError) {
+          console.log('Auth/me failed, trying fallback:', authError);
+        }
+        const res = await axios.get(`${backendURL}/me`, {
+          withCredentials: true,
+        });
+        console.log('User data received from fallback:', res.data);
+        dispatch(setUser(res.data));
+      } catch (err) {
+        console.error('User not logged in', err);
+      }
+    };
+
+    fetchUser();
+  }, [dispatch]);
   
 
   useEffect(() => {
