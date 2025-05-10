@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { X, Camera, Music, Calendar, MapPin, Tag, User, Search } from "lucide-react";
 import styles from "./GJCreatePost.module.css";
-import { searchSpotify } from "../../apis/api";
+import { createPost, searchSpotify } from "../../apis/api";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
@@ -177,12 +177,8 @@ const GJCreatePost = ({ isOpen, onClose }) => {
     }
 
     // Make request (replace createPost with axios/fetch if needed)
-    await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/posts`, formDataToSend, {
-      headers: {
-        "Content-Type": "multipart/form-data"
-      },
-      withCredentials: true
-    });
+    console.log({formData})
+    await createPost(formData)
 
     handleClose();
   } catch (err) {
