@@ -22,6 +22,8 @@ connectDB();
 app.use(cors({
   origin: process.env.CLIENT_URL,
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(require("cookie-parser")());
@@ -29,10 +31,9 @@ app.use(express.json({ limit: '20mb' }));
 app.use(express.urlencoded({ limit: '20mb', extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// SESSION MIDDLEWARE - BEFORE PASSPORT INITIALIZATION
 app.use(
   session({
-    secret: 'your_secret_key',
+    secret: process.env.SESSION_SECRET || 'your_secret_key', 
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
@@ -42,12 +43,13 @@ app.use(
     }),
     cookie: {
       maxAge: 24 * 60 * 60 * 1000,
-      httpOnly: true, // Changed to true for security
-      secure: process.env.NODE_ENV === 'production', // Only use secure in production
-      sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+      httpOnly: true,
+      secure: true, 
+      sameSite: 'None', 
     },
   })
 );
+app.options('*', cors());
 
 // Initialize passport
 app.use(passport.initialize());
