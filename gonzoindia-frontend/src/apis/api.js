@@ -8,12 +8,12 @@ export const createPost = async (postData) => {
 
     const apiReadyData = postData;
     console.log('Sending post data:', apiReadyData);
-    return await axios.post(BASE_URL, apiReadyData, {
+    return await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/posts`, apiReadyData, {
       headers: {
-        'Content-Type': 'application/json'
-      }
+        "Content-Type": "multipart/form-data"
+      },
+      withCredentials: true
     });
-    
 };
 
 

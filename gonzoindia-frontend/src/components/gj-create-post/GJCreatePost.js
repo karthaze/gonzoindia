@@ -160,7 +160,6 @@ const GJCreatePost = ({ isOpen, onClose }) => {
   try {
     const formDataToSend = new FormData();
 
-    // Append all fields to formData
     formDataToSend.append("title", formData.title);
     formDataToSend.append("text", formData.text);
     formDataToSend.append("date", formData.date);
@@ -171,14 +170,10 @@ const GJCreatePost = ({ isOpen, onClose }) => {
       formDataToSend.append("spotifyEmbedUrl", formData.spotifyEmbedUrl);
     }
 
-    // Attach image file (if provided)
     if (formData.imageFile) {
       formDataToSend.append("image", formData.imageFile);
     }
-
-    // Make request (replace createPost with axios/fetch if needed)
-    console.log({formData})
-    await createPost(formData)
+    await createPost(formDataToSend)
 
     handleClose();
   } catch (err) {
