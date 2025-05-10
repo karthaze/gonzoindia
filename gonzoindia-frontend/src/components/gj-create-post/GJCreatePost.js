@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { X, Camera, Music, Calendar, MapPin, Tag, User, Search } from "lucide-react";
 import styles from "./GJCreatePost.module.css";
-import { createPost, searchSpotify } from "../../apis/api";
+import { searchSpotify } from "../../apis/api";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
