@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { X, Camera, Music, Calendar, MapPin, Tag, User, Search } from "lucide-react";
 import styles from "./GJCreatePost.module.css";
-import { createPost, searchSpotify } from "../../apis/api";
+import { searchSpotify } from "../../apis/api";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
@@ -160,6 +160,7 @@ const GJCreatePost = ({ isOpen, onClose }) => {
   try {
     const formDataToSend = new FormData();
 
+    // Append all fields to formData
     formDataToSend.append("title", formData.title);
     formDataToSend.append("text", formData.text);
     formDataToSend.append("date", formData.date);
@@ -170,10 +171,18 @@ const GJCreatePost = ({ isOpen, onClose }) => {
       formDataToSend.append("spotifyEmbedUrl", formData.spotifyEmbedUrl);
     }
 
+    // Attach image file (if provided)
     if (formData.imageFile) {
       formDataToSend.append("image", formData.imageFile);
     }
-    await createPost(formDataToSend)
+
+    // Make request (replace createPost with axios/fetch if needed)
+    await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/posts`, formDataToSend, {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      },
+      withCredentials: true
+    });
 
     handleClose();
   } catch (err) {
