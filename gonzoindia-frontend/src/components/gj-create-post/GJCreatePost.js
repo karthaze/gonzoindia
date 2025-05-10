@@ -115,7 +115,7 @@ const GJCreatePost = ({ isOpen, onClose }) => {
       const reader = new FileReader();
       reader.onload = (e) => {
         setPreviewImage(e.target.result);
-        setFormData(prev => ({ ...prev, imageUrl: e.target.result }));
+        setFormData(prev => ({ ...prev, imageFile: file }));
       };
       reader.readAsDataURL(file);
     }
@@ -142,39 +142,60 @@ const GJCreatePost = ({ isOpen, onClose }) => {
 
   // Form submission
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setError("");
+  e.preventDefault();
+  setIsSubmitting(true);
+  setError("");
 
-    // Validation
-    const requiredFields = ["title", "text", "date", "event", "destination"];
-    const missingFields = requiredFields.filter(field => !formData[field]);
-    
-    if (missingFields.length > 0) {
-      setError("Please fill all required fields");
-      setIsSubmitting(false);
-      return;
+  // Validation
+  const requiredFields = ["title", "text", "date", "event", "destination"];
+  const missingFields = requiredFields.filter(field => !formData[field]);
+
+  if (missingFields.length > 0) {
+    setError("Please fill all required fields");
+    setIsSubmitting(false);
+    return;
+  }
+
+  try {
+    const formDataToSend = new FormData();
+
+    // Append all fields to formData
+    formDataToSend.append("title", formData.title);
+    formDataToSend.append("text", formData.text);
+    formDataToSend.append("date", formData.date);
+    formDataToSend.append("event", formData.event);
+    formDataToSend.append("destination", formData.destination);
+    formDataToSend.append("email", user?.email || "");
+    if (formData.spotifyEmbedUrl) {
+      formDataToSend.append("spotifyEmbedUrl", formData.spotifyEmbedUrl);
     }
 
-    try {
-      await createPost({
-        ...formData,
-        email: user?.email,
-        spotifyEmbedUrl: formData.spotifyEmbedUrl
-      });
-      handleClose();
-    } catch (err) {
-      let error = JSON.stringify(err)
-      console.log({error});
-      if (err.status === 413){
-        setError("Media size too large, upload Limit : 20mb")
-      } else {
-        setError("Failed to create post. Please try again.");
-      }
-    } finally {
-      setIsSubmitting(false);
+    // Attach image file (if provided)
+    if (formData.imageFile) {
+      formDataToSend.append("image", formData.imageFile);
     }
-  };
+
+    // Make request (replace createPost with axios/fetch if needed)
+    await axios.post(`${YOUR_BACKEND_URL}/api/posts`, formDataToSend, {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      },
+      withCredentials: true
+    });
+
+    handleClose();
+  } catch (err) {
+    console.log({ error: err });
+    if (err.response?.status === 413) {
+      setError("Media size too large, upload limit: 20MB");
+    } else {
+      setError("Failed to create post. Please try again.");
+    }
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
 
   // Close modal with animation
   const handleClose = () => {

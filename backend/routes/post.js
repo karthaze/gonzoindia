@@ -3,6 +3,7 @@ const router = express.Router();
 const Post = require('../models/post');
 const fs = require('fs');
 const path = require('path');
+const cloudinary = require('../config/cloudinary');
 
 router.post('/', async (req, res) => {
   try {
@@ -18,38 +19,24 @@ router.post('/', async (req, res) => {
       imageUrl
     } = req.body;
 
-    let imageURL = '';
-    
+    let uploadedImageUrl = '';
+
     if (imageUrl && imageUrl.startsWith('data:image/')) {
       try {
-        const matches = imageUrl.match(/^data:image\/([A-Za-z-+\/]+);base64,(.+)$/);
-        
-        if (!matches || matches.length !== 3) {
-          throw new Error('Invalid image data');
-        }
-        
-        const imageType = matches[1]; 
-        const base64Data = matches[2];
-        const imageBuffer = Buffer.from(base64Data, 'base64');
+        const matches = imageUrl.match(/^data:image\/([A-Za-z-+/]+);base64,(.+)$/);
+        if (!matches || matches.length !== 3) throw new Error('Invalid image data');
 
-        const filename = `image-${Date.now()}-${Math.round(Math.random() * 1E9)}.${imageType}`;
+        const base64Data = `data:image/${matches[1]};base64,${matches[2]}`;
 
-        const uploadDir = path.join(__dirname, '../public/uploads');
-        if (!fs.existsSync(uploadDir)) {
-          fs.mkdirSync(uploadDir, { recursive: true });
-        }
-    
-        const filepath = path.join(uploadDir, filename);
-        fs.writeFileSync(filepath, imageBuffer);
-        
-        imageURL = `/uploads/${filename}`;
-        
-      } catch (imgError) {
-        console.error('Error processing image:', imgError);
+        const uploadRes = await cloudinary.uploader.upload(base64Data, {
+          folder: 'gonzo_posts',
+        });
+
+        uploadedImageUrl = uploadRes.secure_url;
+      } catch (imgErr) {
+        console.error('Cloudinary upload error:', imgErr);
       }
     }
-
-    console.log({imageURL})
 
     const newPost = new Post({
       title,
@@ -57,7 +44,7 @@ router.post('/', async (req, res) => {
       date,
       event,
       destination,
-      imageUrl:imageURL, 
+      imageUrl: uploadedImageUrl,
       spotifyEmbedUrl,
       email,
       authorName,
@@ -67,9 +54,7 @@ router.post('/', async (req, res) => {
     await newPost.save();
 
     const io = req.app.get('io');
-    if (io) {
-      io.emit('new-post', newPost);
-    }
+    if (io) io.emit('new-post', newPost);
 
     res.status(201).json(newPost);
   } catch (err) {
@@ -77,6 +62,7 @@ router.post('/', async (req, res) => {
     res.status(500).json({ error: 'Failed to create post' });
   }
 });
+
 
 
 router.get('/', async (req, res) => {
