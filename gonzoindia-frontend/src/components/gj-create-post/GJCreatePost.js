@@ -181,7 +181,6 @@ const GJCreatePost = ({ isOpen, onClose }) => {
       headers: {
         "Content-Type": "multipart/form-data"
       },
-      withCredentials: true
     });
 
     handleClose();
