@@ -3,6 +3,7 @@ import { X, Camera, Music, Calendar, MapPin, Tag, User, Search } from "lucide-re
 import styles from "./GJCreatePost.module.css";
 import { createPost, searchSpotify } from "../../apis/api";
 import { useSelector } from "react-redux";
+import axios from "axios";
 
 const GJCreatePost = ({ isOpen, onClose }) => {
   const modalRef = useRef(null);
@@ -176,7 +177,7 @@ const GJCreatePost = ({ isOpen, onClose }) => {
     }
 
     // Make request (replace createPost with axios/fetch if needed)
-    await axios.post(`${YOUR_BACKEND_URL}/api/posts`, formDataToSend, {
+    await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/posts`, formDataToSend, {
       headers: {
         "Content-Type": "multipart/form-data"
       },
