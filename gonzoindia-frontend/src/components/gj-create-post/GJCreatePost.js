@@ -141,7 +141,6 @@ const GJCreatePost = ({ isOpen, onClose }) => {
     setSpotifySearchQuery("");
   };
 
-  // Form submission
   const handleSubmit = async (e) => {
   e.preventDefault();
   setIsSubmitting(true);
@@ -158,29 +157,24 @@ const GJCreatePost = ({ isOpen, onClose }) => {
   }
 
   try {
-    const formDataToSend = new FormData();
+    // Create data object matching backend expected format
+    const postData = {
+      title: formData.title,
+      text: formData.text,
+      date: formData.date,
+      event: formData.event,
+      destination: formData.destination,
+      spotifyEmbedUrl: formData.spotifyEmbedUrl || "",
+      email: user?.email || "",
+      authorName: formData.authorName,
+      imageUrl: previewImage // Using the previewImage base64 string
+    };
 
-    // Append all fields to formData
-    formDataToSend.append("title", formData.title);
-    formDataToSend.append("text", formData.text);
-    formDataToSend.append("date", formData.date);
-    formDataToSend.append("event", formData.event);
-    formDataToSend.append("destination", formData.destination);
-    formDataToSend.append("email", user?.email || "");
-    if (formData.spotifyEmbedUrl) {
-      formDataToSend.append("spotifyEmbedUrl", formData.spotifyEmbedUrl);
-    }
-
-    // Attach image file (if provided)
-    if (formData.imageFile) {
-      formDataToSend.append("image", formData.imageFile);
-    }
-
-    // Make request (replace createPost with axios/fetch if needed)
-    await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/posts`, formDataToSend, {
+    // Send JSON data instead of FormData
+    await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/posts`, postData, {
       headers: {
-        "Content-Type": "multipart/form-data"
-      },
+        "Content-Type": "application/json"
+      }
     });
 
     handleClose();
