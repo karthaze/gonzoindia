@@ -33,7 +33,7 @@ const FeedList = ({ posts, onSelectPost }) => {
             >
               <div className={styles.imageContainer}>
                 <img 
-                  src={`${process.env.REACT_APP_BACKEND_URL}${post.imageUrl}`} 
+                  src={post.imageUrl} 
                   alt={post.title}
                   className={styles.postImage}
                 />

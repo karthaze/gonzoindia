@@ -74,7 +74,7 @@ const GJPostModal = ({ post, onClose, onNext, onPrev, disableNext, disablePrev }
           {/* Image Section */}
           <div className={styles.imageSection}>
             <img 
-              src={`${process.env.REACT_APP_BACKEND_URL}${post.imageUrl}`} 
+              src={post.imageUrl} 
               alt={post.title} 
               className={styles.postImage} 
             />
