@@ -7,6 +7,7 @@ const cloudinary = require('../config/cloudinary');
 
 router.post('/', async (req, res) => {
   try {
+    console.log("req-body ----",req.body);
     const {
       title,
       text,
